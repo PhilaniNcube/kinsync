@@ -22,3 +22,26 @@ export async function searchProjects(group_id: string, query = "") {
 
   return data;
 }
+
+
+export async function getProjectByID(project_id: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("projects").select("*").eq("id", project_id).single();
+
+  if (error) {
+   throw new Error(error.message);
+  }
+
+  return data;
+}
+
+export async function getProjectTasks(project_id: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("project_tasks").select("*").eq("project_id", project_id);
+
+  if (error) {
+   throw new Error(error.message);
+  }
+
+  return data;
+}
