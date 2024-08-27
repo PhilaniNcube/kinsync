@@ -19,7 +19,7 @@ const ProjectSummaryCard = ({ project }: Props) => {
 			className="cursor-pointer group"
 			prefetch={false}
 		>
-			<Card className="mb-2 group-hover:shadow-md">
+			<Card className="mb-2 group-hover:shadow-md group-hover:bg-slate-100">
 				<CardHeader>
 					<CardTitle className="text-base">{project.name}</CardTitle>
 					<CardDescription className="text-zinc-800">

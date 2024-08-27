@@ -61,28 +61,11 @@ const GroupSummary = async ({orgId}:{orgId:string}) => {
 					<CardTitle>{group.name}</CardTitle>
 					<CardDescription>Projects and Members</CardDescription>
 				</div>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" size="icon">
-							<MoreHorizontal className="w-4 h-4" />
-							<span className="sr-only">More options</span>
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuItem>Edit Group</DropdownMenuItem>
-						<DropdownMenuItem>Delete Group</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
 			</CardHeader>
 			<CardContent>
 				<div className="mb-4">
 					<h3 className="mb-2 text-lg font-semibold">Members</h3>
-					<div className="flex items-center mb-2 space-x-2">
-						<Avatar>
-							<AvatarFallback>M</AvatarFallback>
-						</Avatar>
-						<span>Me (Creator)</span>
-					</div>
+
 					{groupMembers?.map((member, index) => (
 						<div key={member.id} className="flex items-center mb-2 space-x-2">
 							<Avatar>
@@ -97,11 +80,13 @@ const GroupSummary = async ({orgId}:{orgId:string}) => {
 						<h3 className="text-lg font-semibold">Projects</h3>
 						<CreateProjectDialog group_id={group.id} />
 					</div>
-					<ScrollArea className="h-[200px]">
-						{groupProjects.map((project) => (
-							<ProjectSummaryCard key={project.id} project={project} />
-						))}
-					</ScrollArea>
+					<div className="@container">
+						<ScrollArea className="h-[200px]">
+							{groupProjects.map((project) => (
+								<ProjectSummaryCard key={project.id} project={project} />
+							))}
+						</ScrollArea>
+					</div>
 				</div>
 			</CardContent>
 		</Card>
