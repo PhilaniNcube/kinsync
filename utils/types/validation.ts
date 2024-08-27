@@ -32,3 +32,13 @@ export const resetPasswordSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 })
+
+
+export const createProjectSchema = z.object({
+  name: z.string().min(2),
+  description: z.string(),
+  start_date: z.string().date(),
+  end_date: z.string().date(),
+  budget: z.coerce.number(),
+  group_id: z.string().uuid(),
+})

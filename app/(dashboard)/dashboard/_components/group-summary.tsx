@@ -11,6 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Database } from "@/utils/types/schema";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 import { useState } from "react";
+import CreateProjectDialog from "../[org]/projects/_components/create-project";
 
 const projects = [
 	  { id: 3, name: "Monthly Book Selection", status: "In Progress" },
@@ -76,39 +77,7 @@ const GroupSummary = ({group, members}:{group:Database['public']['Tables']['tena
 					<div>
 						<div className="flex items-center justify-between mb-2">
 							<h3 className="text-lg font-semibold">Projects</h3>
-							<Dialog
-								open={isAddProjectDialogOpen}
-								onOpenChange={setIsAddProjectDialogOpen}
-							>
-								<DialogTrigger asChild>
-									<Button size="sm">
-										<PlusCircle className="w-4 h-4 mr-2" />
-										Add Project
-									</Button>
-								</DialogTrigger>
-								<DialogContent>
-									<DialogHeader>
-										<DialogTitle>Add New Project</DialogTitle>
-										<DialogDescription>
-											Enter the name of the new project for this group.
-										</DialogDescription>
-									</DialogHeader>
-									<div className="py-4">
-										<Label htmlFor="project-name" className="text-right">
-											Project Name
-										</Label>
-										<Input
-											id="project-name"
-											value={newProjectName}
-											onChange={(e) => setNewProjectName(e.target.value)}
-											className="col-span-3"
-										/>
-									</div>
-									<DialogFooter>
-										<Button onClick={handleAddProject}>Add Project</Button>
-									</DialogFooter>
-								</DialogContent>
-							</Dialog>
+							<CreateProjectDialog group_id={group.id} />
 						</div>
 						<ScrollArea className="h-[200px]">
 							{projects.map((project) => (
