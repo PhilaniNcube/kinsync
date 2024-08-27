@@ -46,7 +46,7 @@ export async function createProjectAction(
 			created_by: user.id,
 			budget: validatedFileds.data.budget,
 		},
-	]);
+	]).select("*").single();
 
   console.log({data, error})
 
@@ -57,7 +57,17 @@ export async function createProjectAction(
 		};
 	}
 
-	revalidatePath(`/dashboard/${validatedFileds.data.group_id}`, "layout");
+
+
+  // add this user to the project_members table
+  const { data: project_members, error: project_members_error } = await supabase.from("project_members").insert([{
+    project_id: data.id,
+    user_id: user.id,
+  }]).select("*");
+
+  console.log({project_members, project_members_error})
+
+  	revalidatePath(`/dashboard/${validatedFileds.data.group_id}`, "layout");
 	revalidatePath(`/dashboard/${validatedFileds.data.group_id}/projects`);
 
 	return {
