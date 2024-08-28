@@ -42,3 +42,12 @@ export const createProjectSchema = z.object({
   budget: z.coerce.number(),
   group_id: z.string().uuid(),
 })
+
+
+export const createTaskSchema = z.object({
+	description: z.string(),
+	cost: z.coerce.number(),
+	due_date: z.string().date(),
+	project_id: z.string().uuid(),
+	tenant_id: z.string().uuid(),
+});

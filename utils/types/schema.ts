@@ -118,6 +118,7 @@ export type Database = {
 			};
 			project_tasks: {
 				Row: {
+					completed: boolean;
 					cost: number;
 					created_at: string;
 					description: string;
@@ -129,6 +130,7 @@ export type Database = {
 					tenant_id: string;
 				};
 				Insert: {
+					completed?: boolean;
 					cost?: number;
 					created_at?: string;
 					description: string;
@@ -140,6 +142,7 @@ export type Database = {
 					tenant_id: string;
 				};
 				Update: {
+					completed?: boolean;
 					cost?: number;
 					created_at?: string;
 					description?: string;
