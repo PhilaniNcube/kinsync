@@ -51,3 +51,9 @@ export const createTaskSchema = z.object({
 	project_id: z.string().uuid(),
 	tenant_id: z.string().uuid(),
 });
+
+
+export const completeTaskSchema = z.object({
+  task_id: z.string().uuid(),
+  completed: z.boolean(),
+});

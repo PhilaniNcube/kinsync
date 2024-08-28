@@ -37,7 +37,7 @@ export async function getProjectByID(project_id: string) {
 
 export async function getProjectTasks(project_id: string) {
   const supabase = createClient();
-  const { data, error } = await supabase.from("project_tasks").select("*").eq("project_id", project_id);
+  const { data, error } = await supabase.from("project_tasks").select("*").eq("project_id", project_id).order("description", { ascending: true });
 
   if (error) {
    throw new Error(error.message);

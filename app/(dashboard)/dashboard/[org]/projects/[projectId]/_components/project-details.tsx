@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useOptimistic, useState } from "react";
 import { Calendar, FileText, Image as ImageIcon } from "lucide-react";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import Image from "next/image";
 
 import {
@@ -19,20 +19,34 @@ import { Progress } from "@/components/ui/progress";
 import type { Database } from "@/utils/types/schema";
 import CreateTaskDialog from "./create-task-dialog";
 import { formatCurrency } from "@/lib/utils";
+import { completeTaskAction } from "@/utils/server-actions/tasks/complete-task";
 
 type Props = {
   projectInfo: Database['public']['Tables']['projects']['Row'];
   tasks: Database['public']['Tables']["project_tasks"]['Row'][];
 }
 
+type Task = Database['public']['Tables']["project_tasks"]['Row'];
+
 export default function ProjectDetails({ projectInfo, tasks }: Props) {
 	const [project, setProject] = useState(projectInfo);
 
+  const [optimisticTasks, setOptimisticTasks] = useOptimistic<Task[], Task>(tasks, (state, updatedTask) => {
+    // find the updated task in the state and update it
+				return state.map((task) => {
+					if (task.id === updatedTask.id) {
+						return {
+              ...task,
+              completed: updatedTask.completed  === true,
+            };
+					}
+					return task;
+				});
+  });
 
-
-	const totalCost = tasks.reduce((sum, task) => sum + task.cost, 0);
-	const completedTasks = tasks.filter((task) => task.completed).length;
-	const progress = (completedTasks / tasks.length) * 100;
+	const totalCost = optimisticTasks.reduce((sum, task) => sum + task.cost, 0);
+	const completedTasks = optimisticTasks.filter((task) => task.completed).length;
+	const progress = (completedTasks / optimisticTasks.length) * 100;
 
 	return (
 		<div className="container p-6 mx-auto space-y-8">
@@ -60,7 +74,9 @@ export default function ProjectDetails({ projectInfo, tasks }: Props) {
 						</div>
 						<div className="flex items-center">
 							<Calendar className="w-4 h-4 mr-2" />
-							End: {projectInfo.end_date && format(projectInfo.end_date, "MMM d, yyyy")}
+							End:{" "}
+							{projectInfo.end_date &&
+								format(projectInfo.end_date, "MMM d, yyyy")}
 						</div>
 					</div>
 					<Progress value={progress} className="mb-4" />
@@ -70,11 +86,14 @@ export default function ProjectDetails({ projectInfo, tasks }: Props) {
 			<Card>
 				<CardHeader className="flex flex-row items-center justify-between">
 					<CardTitle>Project Tasks</CardTitle>
-          <CreateTaskDialog tenant_id={projectInfo.tenant_id} project_id={projectInfo.id} />
+					<CreateTaskDialog
+						tenant_id={projectInfo.tenant_id}
+						project_id={projectInfo.id}
+					/>
 				</CardHeader>
 				<CardContent>
 					<ul className="space-y-4">
-						{tasks.map((task) => (
+						{optimisticTasks.map((task) => (
 							<li
 								key={task.id}
 								className="flex items-center justify-between p-2 rounded-lg hover:bg-muted"
@@ -82,7 +101,15 @@ export default function ProjectDetails({ projectInfo, tasks }: Props) {
 								<div className="flex items-center space-x-2">
 									<Checkbox
 										checked={task.completed}
-										// onCheckedChange={() => toggleTaskCompletion(task.id)}
+										onCheckedChange={(checked) => {
+                      console.log(checked)
+                      setOptimisticTasks({
+                        ...task,
+                        completed: checked === true,
+                      })
+
+                      completeTaskAction(checked === true, task.id, projectInfo.tenant_id, projectInfo.id)
+                    }}
 									/>
 									<span
 										className={
@@ -92,12 +119,15 @@ export default function ProjectDetails({ projectInfo, tasks }: Props) {
 										{task.description}
 									</span>
 								</div>
-								<Badge variant="secondary">{task.cost && formatCurrency(task.cost)}</Badge>
+								<Badge variant="secondary">
+									{task.cost && formatCurrency(task.cost)}
+								</Badge>
 							</li>
 						))}
 					</ul>
 					<div className="mt-4 font-semibold text-right">
-						Total Cost: {formatCurrency(tasks.reduce((sum, task) => sum + task.cost, 0))}
+						Total Cost:{" "}
+						{formatCurrency(tasks.reduce((sum, task) => sum + task.cost, 0))}
 					</div>
 				</CardContent>
 			</Card>
