@@ -1,17 +1,4 @@
 import type { ReactNode } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-	BarChart,
-	Bell,
-	ChevronDown,
-	Home,
-	Menu,
-	Settings,
-	Users,
-} from "lucide-react";
-import Link from "next/link";
 import Aside from "./_components/aside";
 import DashboardHeader from "./_components/header";
 import { DashboardStoreProvider } from "./_components/dashboard-provider";
