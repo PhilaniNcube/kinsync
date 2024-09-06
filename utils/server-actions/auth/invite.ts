@@ -48,7 +48,6 @@ export async function inviteUserAction(prevState: unknown, formData: FormData) {
 			email_confirm: true,
 		});
 
-		console.log({ user, error });
 
 		if (error) {
 			return {
