@@ -1,63 +1,13 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/a2l5RIt9uV0
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { MountainIcon } from "lucide-react";
+
 
 export default function Component() {
 	return (
 		<div className="flex flex-col min-h-dvh">
-			<header className="flex items-center px-4 lg:px-6 h-14">
-				<Link
-					href="#"
-					className="flex items-center justify-center"
-					prefetch={false}
-				>
-					<MountainIcon className="size-6" />
-					<span className="sr-only">Kinsync</span>
-				</Link>
-				<nav className="flex gap-4 ml-auto sm:gap-6">
-					<Link
-						href="#"
-						className="text-sm font-medium hover:underline underline-offset-4"
-						prefetch={false}
-					>
-						Features
-					</Link>
-					<Link
-						href="#"
-						className="text-sm font-medium hover:underline underline-offset-4"
-						prefetch={false}
-					>
-						Pricing
-					</Link>
-					<Link
-						href="#"
-						className="text-sm font-medium hover:underline underline-offset-4"
-						prefetch={false}
-					>
-						About
-					</Link>
-					<Link
-						href="#"
-						className="text-sm font-medium hover:underline underline-offset-4"
-						prefetch={false}
-					>
-						Contact
-					</Link>
-					<Link
-						href="/sign-in"
-						className="text-sm font-medium hover:underline underline-offset-4"
-						prefetch={false}
-					>
-						Sign In
-					</Link>
-				</nav>
-			</header>
+
 			<main className="flex-1">
 				<section className="w-full pt-12 md:pt-24 lg:pt-32 border-y">
 					<div className="px-4 space-y-10 md:px-6 xl:space-y-16">

@@ -47,14 +47,14 @@ export default function UpdatePassword() {
 			});
 			return;
 		}
-		if (passwordStrength < 75) {
-			toast({
-				title: "Password is not strong enough",
-				description: "Please choose a stronger password.",
-				variant: "destructive",
-			});
-			return;
-		}
+		// if (passwordStrength < 75) {
+		// 	toast({
+		// 		title: "Password is not strong enough",
+		// 		description: "Please choose a stronger password.",
+		// 		variant: "destructive",
+		// 	});
+		// 	return;
+		// }
 
     const formData = new FormData();
 
