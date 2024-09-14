@@ -48,8 +48,6 @@ const ProfileDropDown = ({
 				>
 					Profile
 				</DropdownMenuItem>
-				<DropdownMenuItem>Team</DropdownMenuItem>
-				<DropdownMenuItem>Subscription</DropdownMenuItem>
 				<DropdownMenuItem
          className="cursor-pointer"
          onClick={() => {

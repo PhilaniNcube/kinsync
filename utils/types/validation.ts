@@ -1,3 +1,4 @@
+import { Fira_Sans } from 'next/font/google';
 import {z} from 'zod';
 
 export const signUpSchema = z.object({
@@ -26,6 +27,8 @@ export const createGroupSchema = z.object({
 export const inviteUserSchema = z.object({
   email: z.string().email(),
   group_id: z.string().uuid(),
+  first_name: z.string().min(2),
+  last_name: z.string().min(2),
 })
 
 export const resetPasswordSchema = z.object({

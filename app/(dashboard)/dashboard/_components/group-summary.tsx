@@ -71,7 +71,7 @@ const GroupSummary = async ({orgId}:{orgId:string}) => {
 							<Avatar>
 								<AvatarFallback>{member?.first_name?.[0]}</AvatarFallback>
 							</Avatar>
-							<span>{member?.first_name}</span>
+							<span>{member?.first_name} {member.last_name}</span>
 						</div>
 					))}
 				</div>

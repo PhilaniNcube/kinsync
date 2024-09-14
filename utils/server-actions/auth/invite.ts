@@ -1,9 +1,13 @@
 "use server";
 
+import { EmailTemplate } from "@/components/email-templates/invite-user";
 import { createClient } from "@/utils/supabase/service";
 import { inviteUserSchema } from "@/utils/types/validation";
 import type { User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function inviteUserAction(prevState: unknown, formData: FormData) {
 	const supabase = createClient();
@@ -11,6 +15,8 @@ export async function inviteUserAction(prevState: unknown, formData: FormData) {
 	const validatedFields = inviteUserSchema.safeParse({
 		email: formData.get("email"),
 		group_id: formData.get("group_id"),
+    first_name: formData.get("first_name"),
+    last_name: formData.get("last_name"),
 	});
 
 	if (!validatedFields.success) {
@@ -20,7 +26,7 @@ export async function inviteUserAction(prevState: unknown, formData: FormData) {
 		};
 	}
 
-	const { email, group_id } = validatedFields.data;
+	const { email, group_id, first_name, last_name } = validatedFields.data;
 
 	// check if the user already exists
 	const {
@@ -46,6 +52,10 @@ export async function inviteUserAction(prevState: unknown, formData: FormData) {
 			email,
 			password: "password",
 			email_confirm: true,
+      user_metadata: {
+        first_name,
+        last_name,
+      },
 		});
 
 
@@ -63,8 +73,15 @@ export async function inviteUserAction(prevState: unknown, formData: FormData) {
 			};
 		}
 
+
+
+  		const { data: passwordReset, error: passwordResetError } =
+        await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `http://localhost:3000/update-password`,
+        });
+
 		// add this user to the tenant_members table
-		const { data: tenant_member, error: tenant_error } = await supabase
+		await supabase
 			.from("tenant_members")
 			.insert([
 				{
@@ -73,10 +90,7 @@ export async function inviteUserAction(prevState: unknown, formData: FormData) {
 				},
 			]);
 
-		const { data: passwordReset, error: passwordResetError } =
-			await supabase.auth.resetPasswordForEmail(email, {
-				redirectTo: `${process.env.SITE_URL}/update-password`,
-			});
+
 
 		revalidatePath("/profile", "layout");
 		revalidatePath("/dashboard", "layout");

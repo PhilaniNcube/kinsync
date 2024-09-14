@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 
 export default function Component() {
@@ -161,7 +162,7 @@ export default function Component() {
 							</div>
 						</div>
 						<div className="grid items-center max-w-5xl gap-6 py-12 mx-auto lg:grid-cols-2 lg:gap-12">
-							<img
+							<Image
 								src="/placeholder.svg"
 								width="550"
 								height="310"
