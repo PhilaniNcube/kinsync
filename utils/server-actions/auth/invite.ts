@@ -73,12 +73,21 @@ export async function inviteUserAction(prevState: unknown, formData: FormData) {
 			};
 		}
 
+    await resend.emails.send({
+      from: "crm@diversivest.co.za",
+      to: [email],
+      subject: "You have been invited to a KinSync Group!",
+      react: EmailTemplate({ first_name, last_name, email }),
+    })
 
 
-  		const { data: passwordReset, error: passwordResetError } =
-        await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `http://localhost:3000/update-password`,
-        });
+
+  await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: `${process.env.SITE_URL}/profile`,
+    },
+  });
 
 		// add this user to the tenant_members table
 		await supabase
