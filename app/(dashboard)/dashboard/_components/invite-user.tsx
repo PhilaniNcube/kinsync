@@ -51,7 +51,7 @@ export default function InviteUser({ group_id }: { group_id: string }) {
                   id="last_name"
                   type="text"
                   name="last_name"
-                  placeholder="John"
+                  placeholder="Doe"
                   required
                 />
               </div>

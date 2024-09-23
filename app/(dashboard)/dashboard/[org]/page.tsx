@@ -7,12 +7,15 @@ import { getGroupMembers } from "@/utils/data/members";
 import { getGroupProjects } from "@/utils/data/projects";
 import { Suspense } from "react";
 import SummaryLoading from "../_components/summary-loading";
+import { redirect } from "next/navigation";
 
 const OrganizationPage = async ({
 	params: { org },
 }: { params: { org: string } }) => {
 
 	const owner = await isGroupOwner(org);
+
+
 
 	return (
 		<div>
