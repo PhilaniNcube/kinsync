@@ -1,7 +1,5 @@
 "use client";
 
-import { use, useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { AlertCircle} from "lucide-react";
 import { signInWithMagicLinkAction } from "@/utils/server-actions/auth/sign-in-action";
 import SubmitButton from "@/components/submit-button";
 import { useFormState } from "react-dom";
